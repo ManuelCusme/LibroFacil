@@ -67,4 +67,21 @@ public class LibrosController : ControllerBase
         if (!eliminado) return NotFound(new { mensaje = $"No se encontró el libro con Id {id}" });
         return NoContent();
     }
+
+    [HttpPost("{id}/vender")]
+public async Task<IActionResult> Vender(int id, [FromBody] int cantidad)
+{
+    try
+    {
+        var exito = await _service.VenderLibroAsync(id, cantidad);
+        if (!exito) 
+            return NotFound(new { mensaje = $"No se encontró el libro con Id {id}" });
+
+        return Ok(new { mensaje = "Venta realizada con éxito y stock actualizado." });
+    }
+    catch (DomainException ex)
+    {
+        return BadRequest(new { mensaje = ex.Message });
+    }
+}
 }

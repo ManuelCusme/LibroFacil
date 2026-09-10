@@ -58,4 +58,17 @@ public class LibroService
         await _repository.EliminarAsync(libro);
         return true;
     }
+
+    public async Task<bool> VenderLibroAsync(int id, int cantidad)
+{
+    var libro = await _repository.ObtenerPorIdAsync(id);
+    if (libro == null) return false;
+
+    // Ejecuta la regla de negocio protegida desde el dominio
+    libro.Vender(cantidad);
+
+    // Persiste el cambio en SQL Server a través del repositorio
+    await _repository.ActualizarAsync(libro);
+    return true;
+}
 }

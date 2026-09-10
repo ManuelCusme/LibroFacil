@@ -24,6 +24,17 @@ public class Libro
         ValidarYAsignar(isbn, titulo, autor, anioPublicacion, stock);
     }
 
+public void Vender(int cantidad)
+    {
+        if (cantidad <= 0)
+            throw new DomainException("La cantidad a vender debe ser mayor a cero.");
+
+        if (cantidad > Stock)
+            throw new DomainException($"Stock insuficiente. No se puede vender {cantidad} unidades porque solo quedan {Stock} en stock.");
+
+        Stock -= cantidad;
+    }
+
     private void ValidarYAsignar(string isbn, string titulo, string autor, int anioPublicacion, int stock)
     {
         if (string.IsNullOrWhiteSpace(isbn))
@@ -47,4 +58,6 @@ public class Libro
         AnioPublicacion = anioPublicacion;
         Stock = stock;
     }
+
+    
 }
